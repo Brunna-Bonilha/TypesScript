@@ -1,0 +1,53 @@
+import readlinesync = require('readline-sync');
+import {Queue} from "../interface/Queue"
+
+const fila = new Queue<string>();
+let menu: number;
+let continuarMenu: number = 0;
+
+ do {
+        console.log("\nMenu:");
+        console.log("**********************************************************");
+        console.log("1 - Adicionar cliente na fila");
+        console.log("2 - Listar todos os clientes");
+        console.log("3 - Retirar cliente da fila");
+        console.log("0 - Sair");
+        console.log("**********************************************************");
+
+        menu = readlinesync.questionInt("Escolha uma opção: ");
+
+        switch (menu) {
+            case 1:
+                const nomeCliente = readlinesync.question("Digite o nome do cliente a ser adicionado: ");
+                if (nomeCliente) {
+                    fila.enqueue(nomeCliente);
+                    console.log(`Cliente '${nomeCliente}' adicionado à fila.`);
+                } else {
+                    console.log("Nome inválido. Cliente não adicionado.");
+                }
+                break;
+            case 2:
+                if (fila.isEmpty()) {
+                    console.log("A fila está vazia.");
+                } else {
+                    console.log("Clientes na fila:");
+                    fila.print(); // Supondo que haja um método print() na classe Queue para listar os clientes
+                }
+                break;
+            case 3:
+                if (fila.isEmpty()) {
+                    console.log("A fila está vazia. Nenhum cliente para retirar.");
+                } else {
+                    const clienteChamado = fila.dequeue();
+                    console.log(`Cliente '${clienteChamado}' foi retirado da fila.`);
+                }
+                break;
+            case 0:
+                console.log("Encerrando o programa.");
+                continuarMenu = 1;
+                break;
+            default:
+                console.log("Opção inválida. Tente novamente.");
+                break;
+        }
+    } while (continuarMenu === 0);

@@ -1,0 +1,51 @@
+import readlinesync = require('readline-sync');
+import { Stack } from "../interface/Stack";
+
+const pilha = new Stack<string>();
+let menu: number;
+let continuarMenu: number = 0;
+
+do {
+    console.log("**********************************************************");
+    console.log("\nMenu:");
+    console.log("**********************************************************");
+    console.log("1 - Adicionar livro na pilha");
+    console.log("2 - Listar todos os livros");
+    console.log("3 - Retirar livro da pilha");
+    console.log("0 - Sair");
+    console.log("**********************************************************");
+
+    menu = readlinesync.questionInt("Digite a opção desejada: ");
+
+    switch (menu) {
+        case 1:
+            let nomeLivro = readlinesync.question("\nDigite o nome do livro que deseja adicionar: ");
+            pilha.push(nomeLivro);
+            console.log("\nLivro adicionado com sucesso!");
+            break;
+        case 2:
+            console.log("\nLista de todos os livros na pilha:");
+            pilha.printStack();
+
+            if (pilha.isEmpty()) {
+                console.log("\nA pilha está vazia.");
+            }
+            break;
+        case 3:
+            if (pilha.isEmpty()) {
+                console.log("\nA pilha está vazia. Nenhum livro para retirar.");
+            } else {
+                const livroRetirado = pilha.pop();
+                console.log(`\nLivro '${livroRetirado}' foi retirado da pilha.`);
+            }
+            break;
+        case 0:
+            console.log("\nEncerrando o programa.");
+            continuarMenu = 1;
+            break;
+        default:
+            console.log("\nOpção inválida. Tente novamente.");
+            break;
+    }
+} while (continuarMenu === 0);
+
